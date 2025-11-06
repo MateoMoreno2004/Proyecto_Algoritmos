@@ -46,8 +46,8 @@ tsp-poc/
 ├─ .gitignore
 └─ README.md
 
-##Backend (FastAPI)
-###Instalación
+## Backend (FastAPI)
+### Instalación
 cd ~/proyectos/tsp-poc
 python -m venv .venv
 source .venv/bin/activate
@@ -55,24 +55,24 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install fastapi uvicorn[standard] shapely python-multipart geojson pydantic[dotenv] pytest
 
-###Ejecutar
+### Ejecutar
 cd backend
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 Docs (Swagger): http://127.0.0.1:8000/docs
 OpenAPI: http://127.0.0.1:8000/openapi.json
 
-###Endpoints
+### Endpoints
 
 POST /upload/network → subir FeatureCollection de LineString (multipart).
 GET /network.geojson → devuelve red cargada (GeoJSON).
 GET /network.wkt → devuelve red cargada (WKT, MultiLineString).
 
-##Probar con curl
-###crear carpeta de samples si no existe
+## Probar con curl
+### crear carpeta de samples si no existe
 mkdir -p ~/proyectos/tsp-poc/samples
 
-###(opcional) pegar aquí tu red_ejemplo.geojson
+### (opcional) pegar aquí tu red_ejemplo.geojson
 curl -s -X POST http://127.0.0.1:8000/upload/network \
   -F "file=@/home/$USER/proyectos/tsp-poc/samples/red_ejemplo.geojson"
 
@@ -91,7 +91,7 @@ npm i -D @types/leaflet @types/geojson @types/file-saver
 Asegúrarse de importar el CSS de Leaflet al inicio de src/main.tsx:
 import "leaflet/dist/leaflet.css";
 
-##Ejecutar
+## Ejecutar
 npm run dev
 
 Abre: http://127.0.0.1:5173
