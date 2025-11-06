@@ -1,0 +1,13 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-74.1,4.65],[-74.09,4.651],[-74.085,4.655]] },
+      "properties": { "edge_id": 1 }
+    },
+    { "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-74.095,4.648],[-74.09,4.651],[-74.08,4.652]] },
+      "properties": { "edge_id": 2 }
+    }
+  ]
+}
