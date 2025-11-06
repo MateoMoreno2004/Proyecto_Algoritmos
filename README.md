@@ -34,16 +34,27 @@ Backend en **FastAPI** · Frontend en **React + Vite + Leaflet**.
 
 ## Estructura del proyecto
 tsp-poc/
+
 ├─ backend/
+
 │  └─ main.py
+
 ├─ frontend/
+
 │  ├─ src/
+
 │  │  ├─ main.tsx
+
 │  │  └─ MapApp.tsx
+
 │  └─ package.json
+
 ├─ samples/
+
 │  └─ red_ejemplo.geojson
+
 ├─ .gitignore
+
 └─ README.md
 
 ## Backend (FastAPI)
