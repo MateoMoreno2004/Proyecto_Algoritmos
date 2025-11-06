@@ -1,4 +1,4 @@
-# backend/main.py
+# backend/Main.py
 from fastapi import FastAPI, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
