@@ -1,49 +1,41 @@
-TSP-POC · FastAPI + React + Leaflet
+# Crea/actualiza README.md con todo el contenido en un solo comando
+# Ejecuta esto desde la raíz de tu repo (tsp-poc/)
+cat > README.md <<'MARKDOWN'
+# TSP-POC · FastAPI + React + Leaflet
 
-POC para cargar una red vial (GeoJSON), visualizarla en mapa y exportarla (GeoJSON/WKT).
-Backend en FastAPI · Frontend en React + Vite + Leaflet.
+POC para cargar una **red vial** (GeoJSON), visualizarla en un mapa web y **exportarla** (GeoJSON/WKT).  
+Backend en **FastAPI** · Frontend en **React + Vite + Leaflet**.
 
-Índice
+---
 
-Requisitos
+## Índice
+- [Requisitos](#requisitos)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Backend (FastAPI)](#backend-fastapi)
+  - [Instalación](#instalación)
+  - [Ejecutar](#ejecutar)
+  - [Endpoints](#endpoints)
+  - [Probar con curl](#probar-con-curl)
+- [Frontend (React + Leaflet)](#frontend-react--leaflet)
+  - [Instalación](#instalación-1)
+  - [Ejecutar](#ejecutar-1)
+- [Datos de ejemplo](#datos-de-ejemplo)
+- [Troubleshooting](#troubleshooting)
+- [gitignore recomendado](#gitignore-recomendado)
+- [Comandos rápidos (TL;DR)](#comandos-rápidos-tldr)
 
-Estructura del proyecto
+---
 
-Backend (FastAPI)
+## Requisitos
+- **WSL (Ubuntu)** en Windows (recomendado) o Linux/Mac.
+- **Python 3.10+** (ideal 3.12).
+- **Node.js 20+** (en WSL; se sugiere `nvm`).
 
-Instalación
+> 💡 Si usas WSL, abre el proyecto con `code .` desde Ubuntu (abajo-izquierda debe decir **WSL: Ubuntu**).
 
-Ejecutar
+---
 
-Endpoints
-
-Probar con curl
-
-Frontend (React + Leaflet)
-
-Instalación
-
-Ejecutar
-
-Datos de ejemplo
-
-Troubleshooting
-
-gitignore recomendado
-
-Comandos rápidos (TL;DR)
-
-Requisitos
-
-WSL (Ubuntu) en Windows (recomendado) o Linux/Mac.
-
-Python 3.10+ (ideal 3.12).
-
-Node.js 20+ (en WSL; se sugiere nvm).
-
-💡 Si usas WSL, abre el proyecto con code . desde Ubuntu (abajo-izquierda debe decir WSL: Ubuntu).
-
-##Estructura del proyecto
+## Estructura del proyecto
 tsp-poc/
 ├─ backend/
 │  └─ main.py
