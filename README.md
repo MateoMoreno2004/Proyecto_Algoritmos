@@ -1,6 +1,3 @@
-# Crea/actualiza README.md con todo el contenido en un solo comando
-# Ejecuta esto desde la raíz de tu repo (tsp-poc/)
-cat > README.md <<'MARKDOWN'
 # TSP-POC · FastAPI + React + Leaflet
 
 POC para cargar una **red vial** (GeoJSON), visualizarla en un mapa web y **exportarla** (GeoJSON/WKT).  
