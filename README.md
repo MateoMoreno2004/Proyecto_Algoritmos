@@ -16,10 +16,6 @@ Backend en **FastAPI** · Frontend en **React + Vite + Leaflet**.
 - [Frontend (React + Leaflet)](#frontend-react--leaflet)
   - [Instalación](#instalación-1)
   - [Ejecutar](#ejecutar-1)
-- [Datos de ejemplo](#datos-de-ejemplo)
-- [Troubleshooting](#troubleshooting)
-- [gitignore recomendado](#gitignore-recomendado)
-- [Comandos rápidos (TL;DR)](#comandos-rápidos-tldr)
 
 ---
 
