@@ -90,11 +90,11 @@ curl -s -X POST http://127.0.0.1:8000/upload/network \
 curl -s http://127.0.0.1:8000/network.geojson | head
 curl -s http://127.0.0.1:8000/network.wkt
 
-#Frontend (React + Leaflet)
-##Instalación
+# Frontend (React + Leaflet)
+## Instalación
 cd ~/proyectos/tsp-poc/frontend
 
-##React 19 + react-leaflet 5
+## React 19 + react-leaflet 5
 npm i -E react@19.2.0 react-dom@19.2.0
 npm i -E react-leaflet@5 leaflet@1.9.4 file-saver
 npm i -D @types/leaflet @types/geojson @types/file-saver
