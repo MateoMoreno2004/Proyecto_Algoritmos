@@ -1,35 +1,204 @@
-# TSP-POC · FastAPI + React + Leaflet
+# Proyecto_Algoritmos · TSP-POC (FastAPI + React + Leaflet)
 
-POC para cargar una **red vial** (GeoJSON), visualizarla en un mapa web y **exportarla** (GeoJSON/WKT).  
+Proyecto final de la clase **Análisis de algoritmos**.  
+Permite cargar una **red vial (GeoJSON)**, visualizarla en un mapa web y exportarla (GeoJSON/WKT).  
 Backend en **FastAPI** · Frontend en **React + Vite + Leaflet**.
 
 ---
 
 ## Índice
-- [Requisitos](#requisitos)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Backend (FastAPI)](#backend-fastapi)
-  - [Instalación](#instalación)
-  - [Ejecutar](#ejecutar)
-  - [Endpoints](#endpoints)
-  - [Probar con curl](#probar-con-curl)
-- [Frontend (React + Leaflet)](#frontend-react--leaflet)
-  - [Instalación](#instalación-1)
-  - [Ejecutar](#ejecutar-1)
+
+1. [Requisitos](#requisitos)
+2. [Instalación en Windows con WSL (solo primera vez)](#instalación-en-windows-con-wsl-solo-primera-vez)
+   - [2.1. Instalar WSL y Ubuntu](#21-instalar-wsl-y-ubuntu)
+   - [2.2. Instalar VS Code + extensión WSL](#22-instalar-vs-code--extensión-wsl)
+   - [2.3. Instalar Git dentro de Ubuntu](#23-instalar-git-dentro-de-ubuntu)
+3. [Clonar este repositorio en WSL](#clonar-este-repositorio-en-wsl)
+4. [Abrir el proyecto con VS Code desde WSL](#abrir-el-proyecto-con-vs-code-desde-wsl)
+5. [Backend (FastAPI)](#backend-fastapi)
+   - [5.1. Crear entorno virtual](#51-crear-entorno-virtual)
+   - [5.2. Instalar dependencias](#52-instalar-dependencias)
+   - [5.3. Ejecutar el backend](#53-ejecutar-el-backend)
+   - [5.4. Probar la-api](#54-probar-la-api)
+6. [Frontend (React + Vite + Leaflet)](#frontend-react--vite--leaflet)
+   - [6.1. Instalar Nodejs con nvm](#61-instalar-nodejs-con-nvm)
+   - [6.2. Instalar dependencias del-frontend](#62-instalar-dependencias-del-frontend)
+   - [6.3. Ejecutar el frontend](#63-ejecutar-el-frontend)
+7. [Estructura del proyecto](#estructura-del-proyecto)
+8. [Flujo típico de desarrollo](#flujo-típico-de-desarrollo)
 
 ---
 
 ## Requisitos
-- **WSL (Ubuntu)** en Windows (recomendado) o Linux/Mac.
-- **Python 3.10+** (ideal 3.12).
-- **Node.js 20+** (en WSL; se sugiere `nvm`).
 
-> 💡 Si usas WSL, abre el proyecto con `code .` desde Ubuntu (abajo-izquierda debe decir **WSL: Ubuntu**).
+- **Sistema operativo:** Windows 10/11.
+- **WSL 2** con **Ubuntu**.
+- **Visual Studio Code** instalado en Windows.
+- Extensión de VS Code: **WSL** (de Microsoft).
+- **Git** instalado dentro de Ubuntu.
+- **Python 3.10+** (ideal 3.12) dentro de Ubuntu.
+- **Node.js 20+** dentro de Ubuntu (se recomienda instalarlo con `nvm`).
 
 ---
 
-## Estructura del proyecto
-tsp-poc/
+## Instalación en Windows con WSL (solo primera vez)
+
+### 2.1. Instalar WSL y Ubuntu
+
+1. Abre **PowerShell** como administrador.
+2. Ejecuta:
+
+   ```powershell
+   wsl --install -d Ubuntu
+3. Reinicia el equipo si Windows lo pide.
+4. Abre la app Ubuntu (desde el menú Inicio), espera a que termine la instalación y crea:
+  -un usuario de Linux
+  -una contraseña (solo para Ubuntu).
+   
+---
+
+## A partir de ahora, siempre que veas comandos con $ se ejecutan dentro de Ubuntu (WSL).
+
+## 2.2. Instalar VS Code + extensión WSL
+### Instala Visual Studio Code en Windows (si no lo tienes).
+
+1. Abre VS Code → pestaña Extensions (icono de cuadritos).
+2. Busca e instala la extensión: “WSL” (de Microsoft).
+3. Desde la app Ubuntu, ejecuta:
+
+    ```powershell
+    code .
+  - VS Code se abrirá conectado a WSL.
+
+## 2.3. Instalar Git dentro de Ubuntu
+1. En la terminal de Ubuntu:
+
+    ```powershell
+    sudo apt update
+    sudo apt install -y git
+  - Clonar este repositorio en WSL
+Elige una carpeta para tus proyectos, por ejemplo ~/proyectos:
+
+    ```powershell
+    mkdir -p ~/proyectos
+    cd ~/proyectos
+
+2. Clona el proyecto:
+
+    ```powershell
+    git clone https://github.com/MateoMoreno2004/Proyecto_Algoritmos.git
+    cd Proyecto_Algoritmos
+    
+3. Abrir el proyecto con VS Code desde WSL
+Desde la carpeta del proyecto:
+     ```powershell
+    cd ~/proyectos/Proyecto_Algoritmos
+    code .
+VS Code se abrirá con el proyecto cargado dentro de WSL.
+
+# Backend (FastAPI)
+El backend corre sobre FastAPI usando Uvicorn.
+
+## 5.1. Crear entorno virtual
+Dentro de la carpeta del proyecto (en WSL):
+
+  source .venv/bin/activate
+Verás algo como (.venv) al inicio de la línea de la terminal.
+
+Siempre que vayas a trabajar con el backend, activar antes el entorno:
+
+    ```powershell
+    source .venv/bin/activate
+    
+## 5.2. Instalar dependencias
+Con el entorno virtual activado:
+
+    ```powershell
+    python -m pip install --upgrade pip
+    pip install fastapi "uvicorn[standard]" shapely python-multipart geojson "pydantic[dotenv]" pytest
+
+## 5.3. Ejecutar el backend
+Desde la carpeta backend/:
+
+    ```powershell
+    cd ~/proyectos/Proyecto_Algoritmos/backend
+    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    
+Deja esa terminal abierta: el servidor se queda corriendo ahí.
+
+## 5.4. Probar la API
+Desde el navegador en Windows:
+
+  - Documentación interactiva (Swagger):
+  - http://127.0.0.1:8000/docs
+
+  - Esquema OpenAPI:
+  - http://127.0.0.1:8000/openapi.json
+
+---
+
+#Frontend (React + Vite + Leaflet)
+El frontend se ejecuta en otra terminal de Ubuntu (el backend debe seguir corriendo).
+
+## 6.1. Instalar Nodejs con nvm
+Si no tienes nvm:
+
+    ```powershell
+    sudo apt update
+    sudo apt install -y curl
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+    source ~/.nvm/nvm.sh
+    
+Instalar Node 20 y usarlo:
+
+    ```powershell
+    nvm install 20
+    nvm use 20
+    
+Cada vez que abras una nueva terminal, si es necesario, ejecuta:
+
+    ```powershell
+    source ~/.nvm/nvm.sh
+    nvm use 20
+    
+### 6.2. Instalar dependencias del-frontend
+Ir a la carpeta frontend/:
+
+    ```powershell
+    cd ~/proyectos/Proyecto_Algoritmos/frontend
+    
+Instalar dependencias (si el proyecto ya trae package.json configurado):
+
+    ```powershell
+    npm install
+    
+Asegúrate de importar el CSS de Leaflet al inicio de src/main.tsx:
+
+    ```powershell
+    import "leaflet/dist/leaflet.css";
+    
+## 6.3. Ejecutar el frontend
+En la carpeta frontend/:
+
+    ```powershell
+    npm run dev
+La terminal mostrará algo como:
+
+    ```powershell
+    Local:   http://127.0.0.1:5173/
+    
+Abre en el navegador:
+
+Frontend: http://127.0.0.1:5173
+
+Backend (ya debe estar corriendo): http://127.0.0.1:8000
+
+Estructura del proyecto
+Vista simplificada:
+
+text
+Copiar código
+Proyecto_Algoritmos/
 
 ├─ backend/
 
@@ -53,54 +222,24 @@ tsp-poc/
 
 └─ README.md
 
-## Backend (FastAPI)
-### Instalación
-cd ~/proyectos/tsp-poc
-python -m venv .venv
-source .venv/bin/activate
+Flujo típico de desarrollo
+Abrir Ubuntu y activar entorno:
 
-python -m pip install --upgrade pip
-pip install fastapi uvicorn[standard] shapely python-multipart geojson pydantic[dotenv] pytest
+    ```powershell
+    cd ~/proyectos/Proyecto_Algoritmos
+    source .venv/bin/activate
+    
+Terminal 1 → backend:
 
-### Ejecutar
-cd backend
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    ```powershell
+    cd backend
+    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    
+Terminal 2 → frontend:
 
-Docs (Swagger): http://127.0.0.1:8000/docs
-OpenAPI: http://127.0.0.1:8000/openapi.json
-
-### Endpoints
-
-POST /upload/network → subir FeatureCollection de LineString (multipart).
-GET /network.geojson → devuelve red cargada (GeoJSON).
-GET /network.wkt → devuelve red cargada (WKT, MultiLineString).
-
-## Probar con curl
-### crear carpeta de samples si no existe
-mkdir -p ~/proyectos/tsp-poc/samples
-
-### (opcional) pegar aquí tu red_ejemplo.geojson
-curl -s -X POST http://127.0.0.1:8000/upload/network \
-  -F "file=@/home/$USER/proyectos/tsp-poc/samples/red_ejemplo.geojson"
-
-curl -s http://127.0.0.1:8000/network.geojson | head
-curl -s http://127.0.0.1:8000/network.wkt
-
-# Frontend (React + Leaflet)
-## Instalación
-cd ~/proyectos/tsp-poc/frontend
-
-## React 19 + react-leaflet 5
-npm i -E react@19.2.0 react-dom@19.2.0
-npm i -E react-leaflet@5 leaflet@1.9.4 file-saver
-npm i -D @types/leaflet @types/geojson @types/file-saver
-
-Asegúrarse de importar el CSS de Leaflet al inicio de src/main.tsx:
-import "leaflet/dist/leaflet.css";
-
-## Ejecutar
-npm run dev
-
-Abre: http://127.0.0.1:5173
-El backend debe estar corriendo en http://127.0.0.1:8000
- (CORS ya permite localhost:5173 y 127.0.0.1:5173).
+    ```powershell
+    cd ~/proyectos/Proyecto_Algoritmos/frontend
+    nvm use 20
+    npm run dev
+    
+Abrir http://127.0.0.1:5173 en el navegador y trabajar.
