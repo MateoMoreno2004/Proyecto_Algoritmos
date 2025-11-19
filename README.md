@@ -119,7 +119,7 @@ Con el entorno virtual activado:
 Desde la carpeta backend/:
 
     cd ~/proyectos/Proyecto_Algoritmos/backend
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    uvicorn Main:app --reload --host 0.0.0.0 --port 8000
     
 Deja esa terminal abierta: el servidor se queda corriendo ahí.
 
