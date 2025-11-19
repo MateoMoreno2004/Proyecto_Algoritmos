@@ -234,5 +234,6 @@ Abrir http://127.0.0.1:5173 en el navegador y trabajar.
 
 ---
 
-#Probar App
+# Probar App
+
 Simplemente descargar los dos .geojson y subirlos en la página
