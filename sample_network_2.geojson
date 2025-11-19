@@ -1,0 +1,111 @@
+{
+  "type": "FeatureCollection",
+  "name": "sample_network_2",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "name": "Calle 1",
+        "oneway": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -74.11,
+            4.64
+          ],
+          [
+            -74.1,
+            4.64
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "name": "Calle 2",
+        "oneway": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -74.11,
+            4.645
+          ],
+          [
+            -74.1,
+            4.645
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "name": "Carrera 1",
+        "oneway": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -74.11,
+            4.64
+          ],
+          [
+            -74.11,
+            4.645
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "name": "Carrera 2",
+        "oneway": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -74.105,
+            4.64
+          ],
+          [
+            -74.105,
+            4.645
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "name": "Carrera 3",
+        "oneway": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -74.1,
+            4.64
+          ],
+          [
+            -74.1,
+            4.645
+          ]
+        ]
+      }
+    }
+  ]
+}
