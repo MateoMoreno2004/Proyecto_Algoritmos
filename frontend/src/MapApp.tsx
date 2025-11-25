@@ -20,7 +20,7 @@ type TspResult = {
 };
 
 type TspResponse = {
-  bruteforce: TspResult;
+  bruteforce?: TspResult; // ahora opcional
   nearest_neighbor: TspResult;
   simulated_annealing: TspResult;
 };
@@ -208,20 +208,28 @@ export default function MapApp() {
   };
 
   const downloadTspRoutes = () => {
-    if (!tsp) return;
-    const fc: FC = {
-      type: "FeatureCollection",
-      features: [
-        tsp.bruteforce.geojson,
-        tsp.nearest_neighbor.geojson,
-        tsp.simulated_annealing.geojson,
-      ],
-    };
-    const blob = new Blob([JSON.stringify(fc)], {
-      type: "application/geo+json",
-    });
-    saveAs(blob, "tsp_routes.geojson");
+  if (!tsp) return;
+
+  const features: Feature[] = [];
+
+  if (tsp.bruteforce) {
+    features.push(tsp.bruteforce.geojson);
+  }
+
+  features.push(tsp.nearest_neighbor.geojson);
+  features.push(tsp.simulated_annealing.geojson);
+
+  const fc: FC = {
+    type: "FeatureCollection",
+    features,
   };
+
+  const blob = new Blob([JSON.stringify(fc)], {
+    type: "application/geo+json",
+  });
+  saveAs(blob, "tsp_routes.geojson");
+};
+
 
   // ---------- render ----------
   return (
@@ -413,25 +421,28 @@ export default function MapApp() {
 
           {/* Rutas TSP: dejamos el verde para las rutas */}
           {tsp && (
-            <>
-              {/* óptimo (fuerza bruta) en verde fuerte */}
-              <RLGeoJSON
-                data={tsp.bruteforce.geojson as any}
-                style={{ color: "#00c853", weight: 4 }}
-              />
-              {/* vecino más cercano en verde más claro / fino */}
-              <RLGeoJSON
-                data={tsp.nearest_neighbor.geojson as any}
-                style={{ color: "#76ff03", weight: 3, dashArray: "6 4" }}
-              />
-              {/* simulated annealing en verde azulado, línea discontinua */}
-              <RLGeoJSON
-                data={tsp.simulated_annealing.geojson as any}
-                style={{ color: "#1de9b6", weight: 3, dashArray: "2 6" }}
-              />
-            </>
-          )}
+  <>
+    {/* Fuerza bruta (solo si existe en la respuesta) */}
+      {tsp.bruteforce && (
+        <RLGeoJSON
+          data={tsp.bruteforce.geojson as any}
+          style={{ color: "#00c853", weight: 4 }}
+        />
+      )}
 
+      {/* vecino más cercano */}
+      <RLGeoJSON
+        data={tsp.nearest_neighbor.geojson as any}
+        style={{ color: "#76ff03", weight: 3, dashArray: "6 4" }}
+      />
+
+      {/* simulated annealing */}
+      <RLGeoJSON
+        data={tsp.simulated_annealing.geojson as any}
+        style={{ color: "#1de9b6", weight: 3, dashArray: "2 6" }}
+            />
+          </>
+            )}
           <FitToData data={network} />
         </MapContainer>
       </main>

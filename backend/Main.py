@@ -21,7 +21,7 @@ import networkx as nx  # <- para shortest path sobre la red
 # --- TSP (3.3) ---
 from tsp_algorithms import (
     geo_distance,                     # para pesar aristas
-    brute_force_tsp_matrix,
+    #brute_force_tsp_matrix,
     nearest_neighbor_tsp_matrix,
     simulated_annealing_tsp_matrix,
 )
@@ -456,36 +456,23 @@ def route_nodes_to_geojson_feature(route: List[int], path_matrix: List[List[List
 @app.get("/tsp/evaluate")
 def evaluate_tsp():
     """
-    Caso de uso 3.3:
-      - Construye un grafo de la red vial (EDGES).
-      - Calcula la distancia más corta en la red entre cada par de puntos integrados.
-      - Ejecuta los tres algoritmos TSP (fuerza bruta, vecino más cercano,
-        simulated annealing) usando esa matriz de distancias.
-      - Devuelve rutas y métricas.
-      - Las geometrías de las rutas siguen la red vial (no líneas rectas).
-
-    Esto cumple la exigencia de trabajar sobre "shortest path over a network".
+    Versión sin fuerza bruta:
+      - Construye matriz de distancias sobre la red.
+      - Ejecuta vecino más cercano y recocido simulado.
+      - No ejecuta fuerza bruta para evitar explosión combinatoria en instancias grandes.
     """
     # 1) Matrices de distancias y caminos sobre la red
     dist_matrix, path_matrix = compute_distance_and_paths()
 
-    # 2) Ejecutar algoritmos TSP sobre la matriz
-    bf_route, bf_dist, bf_time = brute_force_tsp_matrix(dist_matrix)
+    # 2) Ejecutar SOLO heurísticas sobre la matriz
     nn_route, nn_dist, nn_time = nearest_neighbor_tsp_matrix(dist_matrix)
     sa_route, sa_dist, sa_time = simulated_annealing_tsp_matrix(dist_matrix)
 
     # 3) Convertir rutas a GeoJSON siguiendo la red
-    bf_geo = route_nodes_to_geojson_feature(bf_route, path_matrix)
     nn_geo = route_nodes_to_geojson_feature(nn_route, path_matrix)
     sa_geo = route_nodes_to_geojson_feature(sa_route, path_matrix)
 
     return {
-        "bruteforce": {
-            "route": bf_route,
-            "distance": bf_dist,
-            "time": bf_time,
-            "geojson": bf_geo,
-        },
         "nearest_neighbor": {
             "route": nn_route,
             "distance": nn_dist,
@@ -499,3 +486,4 @@ def evaluate_tsp():
             "geojson": sa_geo,
         },
     }
+

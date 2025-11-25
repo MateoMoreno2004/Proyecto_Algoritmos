@@ -75,7 +75,6 @@ def brute_force_tsp_matrix(dist_matrix: List[List[float]]) -> Tuple[List[int], f
     elapsed = time.time() - start_time
     return best_route, best_distance, elapsed
 
-
 # ---------------------------------------------------
 # 2. Nearest Neighbor (vecino más cercano)
 # ---------------------------------------------------
