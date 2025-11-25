@@ -7,7 +7,6 @@ import math
 import random
 import time
 
-
 # ---------------------------------------------------
 # Distancia entre dos puntos (Haversine, en metros)
 # ---------------------------------------------------
@@ -26,23 +25,31 @@ def geo_distance(p1: Point, p2: Point) -> float:
     dphi = math.radians(lat2 - lat1)
     dlambda = math.radians(lon2 - lon1)
 
-    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    a = (
+        math.sin(dphi / 2) ** 2
+        + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    )
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
 
+# ===================================================
+# TSP SOBRE MATRIZ DE DISTANCIAS
+# dist_matrix[i][j] = distancia más corta en la red
+# ===================================================
+
 # ---------------------------------------------------
 # 1. Fuerza bruta
 # ---------------------------------------------------
-def brute_force_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
+def brute_force_tsp_matrix(dist_matrix: List[List[float]]) -> Tuple[List[int], float, float]:
     """
-    Aplica fuerza bruta al TSP.
+    Aplica fuerza bruta al TSP usando una matriz de distancias.
     Retorna:
-      - ruta (lista de índices de puntos)
+      - ruta (lista de índices de puntos, empezando en 0)
       - distancia total (float)
       - tiempo de ejecución en segundos (float)
     """
-    n = len(points)
+    n = len(dist_matrix)
     if n <= 1:
         return list(range(n)), 0.0, 0.0
 
@@ -59,7 +66,7 @@ def brute_force_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
         dist = 0.0
         for i in range(len(route) - 1):
             a, b = route[i], route[i + 1]
-            dist += geo_distance(points[a], points[b])
+            dist += dist_matrix[a][b]
 
         if dist < best_distance:
             best_distance = dist
@@ -72,15 +79,15 @@ def brute_force_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
 # ---------------------------------------------------
 # 2. Nearest Neighbor (vecino más cercano)
 # ---------------------------------------------------
-def nearest_neighbor_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
+def nearest_neighbor_tsp_matrix(dist_matrix: List[List[float]]) -> Tuple[List[int], float, float]:
     """
-    Algoritmo heurístico del vecino más cercano.
+    Algoritmo heurístico del vecino más cercano sobre matriz de distancias.
     Retorna:
       - ruta (lista de índices)
       - distancia total
       - tiempo de ejecución
     """
-    n = len(points)
+    n = len(dist_matrix)
     if n <= 1:
         return list(range(n)), 0.0, 0.0
 
@@ -93,8 +100,8 @@ def nearest_neighbor_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
 
     while unvisited:
         # elegir el más cercano al actual
-        next_idx = min(unvisited, key=lambda j: geo_distance(points[current], points[j]))
-        total_dist += geo_distance(points[current], points[next_idx])
+        next_idx = min(unvisited, key=lambda j: dist_matrix[current][j])
+        total_dist += dist_matrix[current][next_idx]
         route.append(next_idx)
         unvisited.remove(next_idx)
         current = next_idx
@@ -106,20 +113,20 @@ def nearest_neighbor_tsp(points: List[Point]) -> Tuple[List[int], float, float]:
 # ---------------------------------------------------
 # 3. Simulated Annealing (heurístico avanzado)
 # ---------------------------------------------------
-def simulated_annealing_tsp(
-    points: List[Point],
+def simulated_annealing_tsp_matrix(
+    dist_matrix: List[List[float]],
     initial_temp: float = 1000.0,
     cooling: float = 0.995,
     steps: int = 5000,
 ) -> Tuple[List[int], float, float]:
     """
-    Heurístico de Simulated Annealing para TSP.
+    Heurístico de Simulated Annealing para TSP usando matriz de distancias.
     Retorna:
       - mejor ruta (lista de índices)
       - mejor distancia
       - tiempo de ejecución
     """
-    n = len(points)
+    n = len(dist_matrix)
     if n <= 1:
         return list(range(n)), 0.0, 0.0
 
@@ -127,7 +134,7 @@ def simulated_annealing_tsp(
         d = 0.0
         for i in range(len(route) - 1):
             a, b = route[i], route[i + 1]
-            d += geo_distance(points[a], points[b])
+            d += dist_matrix[a][b]
         return d
 
     # Ruta inicial aleatoria
@@ -164,27 +171,3 @@ def simulated_annealing_tsp(
 
     elapsed = time.time() - start_time
     return best_route, best_dist, elapsed
-
-
-
-
-
-if __name__ == "__main__":
-    # Ejemplo tonto con 4 puntos alrededor de un cuadrado
-    pts = [
-        Point(-74.0, 4.6),
-        Point(-74.01, 4.6),
-        Point(-74.01, 4.61),
-        Point(-74.0, 4.61),
-    ]
-
-    print("Fuerza bruta:")
-    print(brute_force_tsp(pts))
-
-    print("Nearest neighbor:")
-    print(nearest_neighbor_tsp(pts))
-
-    print("Simulated annealing:")
-    print(simulated_annealing_tsp(pts))
-
-    

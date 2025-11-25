@@ -1,9 +1,15 @@
-import "leaflet/dist/leaflet.css";
+// frontend/src/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+//CSS de Leaflet
+import "leaflet/dist/leaflet.css";
+
+//Tus estilos globales
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

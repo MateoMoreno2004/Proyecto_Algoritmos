@@ -1,4 +1,5 @@
 import MapApp from "./MapApp";
-export default function App() {
+function App() {
   return <MapApp />;
 }
+export default App;
