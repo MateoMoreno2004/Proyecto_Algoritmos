@@ -15,6 +15,13 @@ import json
 import csv
 from io import StringIO
 
+# --- TSP (3.3) ---
+from tsp_algorithms import (
+    brute_force_tsp,
+    nearest_neighbor_tsp,
+    simulated_annealing_tsp,
+)
+
 app = FastAPI(title="TSP-POC Backend", version="0.2.0")
 
 # Ajusta si tu front corre en otro puerto/origen
@@ -270,3 +277,75 @@ async def get_points_geojson():
         features.append(feat)
 
     return {"type": "FeatureCollection", "features": features}
+
+
+# ----------- 3.3 Algorithms Evaluation ----------- #
+
+def get_snapped_points_as_shapely():
+    """
+    Convierte la lista global POINTS_SNAPPED en una lista de shapely.Point
+    usando la geometría 'snapped'.
+    """
+    global POINTS_SNAPPED
+    if not POINTS_SNAPPED:
+        raise HTTPException(status_code=400, detail="No hay puntos integrados.")
+    points = []
+    for p in POINTS_SNAPPED:
+        lon, lat = p["snapped"]["coordinates"]
+        points.append(Point(lon, lat))
+    return points
+
+
+def route_to_geojson_feature(points, route_indices):
+    """
+    Convierte una ruta (lista de índices) en un Feature GeoJSON tipo LineString.
+    """
+    coords = [points[i].coords[0] for i in route_indices]
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": coords
+        },
+        "properties": {}
+    }
+
+
+@app.get("/tsp/evaluate")
+def evaluate_tsp():
+    """
+    Caso de uso 3.3:
+    Ejecuta los tres algoritmos del TSP sobre los puntos integrados,
+    calcula distancia y tiempo, y devuelve las rutas en formato usable por el frontend.
+    """
+    points = get_snapped_points_as_shapely()
+
+    # 1. Fuerza bruta
+    bf_route, bf_dist, bf_time = brute_force_tsp(points)
+
+    # 2. Nearest Neighbor
+    nn_route, nn_dist, nn_time = nearest_neighbor_tsp(points)
+
+    # 3. Simulated Annealing
+    sa_route, sa_dist, sa_time = simulated_annealing_tsp(points)
+
+    return {
+        "bruteforce": {
+            "route": bf_route,
+            "distance": bf_dist,
+            "time": bf_time,
+            "geojson": route_to_geojson_feature(points, bf_route),
+        },
+        "nearest_neighbor": {
+            "route": nn_route,
+            "distance": nn_dist,
+            "time": nn_time,
+            "geojson": route_to_geojson_feature(points, nn_route),
+        },
+        "simulated_annealing": {
+            "route": sa_route,
+            "distance": sa_dist,
+            "time": sa_time,
+            "geojson": route_to_geojson_feature(points, sa_route),
+        }
+    }
